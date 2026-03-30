@@ -4,7 +4,13 @@ from shapely.geometry import Point
 import matplotlib.pyplot as plt
 from plt_style import set_korean 
 
-# 한글 설정
+# =========================================
+# 119 신고접수 데이터 (2024)
+# 출동 위치 시각화 (행정동 경계 기준)
+# 행정동별 / 센터별 출동 횟수 CSV 생성
+# =========================================
+
+# 1. 한글 설정
 set_korean()
 
 # 2. 행정동 GeoJSON 로드 (좌표계: WGS84)

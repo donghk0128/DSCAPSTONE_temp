@@ -1,12 +1,12 @@
 import pandas as pd
-import geopandas as gpd
-from shapely.geometry import Point
-import matplotlib.pyplot as plt
-from plt_style import set_korean 
 
-# 1. 한글 설정
-set_korean()
+df1 = pd.read_csv("119 신고접수 현황/신고접수_2024.csv", encoding="utf-8")
+df2 = pd.read_csv("119 신고접수 현황/신고접수_2024.csv", encoding="utf-8", dtype={"DCLR_DT": str})
 
-# 2. 행정동 GeoJSON 로드 (좌표계: WGS84)
-hjd_gdf = gpd.read_file('서울시_행정동.geojson')
-print(hjd_gdf)
+print("기본:")
+print(df1.head())
+
+print("\n문자열 강제:")
+print(df2.head())
+
+print(df1["DCLR_DT"].iloc[0], type(df1["DCLR_DT"].iloc[0]))

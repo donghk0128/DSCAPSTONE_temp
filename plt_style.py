@@ -1,4 +1,4 @@
-# my_style.py
+# plt 한글 깨짐 우회 코드 (윈도우, 맥)
 import matplotlib.pyplot as plt
 import platform
 

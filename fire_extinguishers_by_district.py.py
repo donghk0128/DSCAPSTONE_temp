@@ -1,14 +1,17 @@
 import pandas as pd
 import geopandas as gpd
 
-# =============================
-# 1. 데이터 불러오기 (엑셀)
-# =============================
+
+# =========================================
+# 비상소화장치위치 -> 자치구 별 소화장치 개수 변환
+# =========================================
+
+# 1. load
+
 df = pd.read_excel("서울시 비상소화장치 위치정보.xlsx")
 
-# =============================
+
 # 2. 데이터 정제
-# =============================
 
 # 2-1. 삭제여부 확인
 deleted_count = (df['삭제여부'] == 'Y').sum()
@@ -25,9 +28,9 @@ df_clean = df_clean[df_clean['삭제여부'] != 'Y']
 print(f"원본 개수: {len(df)}")
 print(f"정제 후 개수: {len(df_clean)}")
 
-# =============================
+
 # 3. 공간 데이터 변환
-# =============================
+
 
 # GeoDataFrame 생성 (ITRF2000 / EPSG:5186)
 gdf = gpd.GeoDataFrame(
@@ -39,28 +42,28 @@ gdf = gpd.GeoDataFrame(
 # WGS84로 변환 (GeoJSON 맞추기)
 gdf = gdf.to_crs(epsg=4326)
 
-# =============================
+
 # 4. 서울시 자치구 GeoJSON 불러오기
-# =============================
+
 seoul = gpd.read_file("seoul.geojson")
 seoul = seoul.to_crs(epsg=4326)
 
 # 컬럼 확인 (구 이름 컬럼 찾기)
 print(seoul.columns)
 
-# =============================
+
 # 5. 공간 조인 (자치구 매핑)
-# =============================
+
 joined = gpd.sjoin(gdf, seoul, how="left", predicate="within")
 
-# =============================
+
 # 6. 자치구별 소화기 개수 집계
-# =============================
+
 result = joined.groupby('SIG_KOR_NM').size().reset_index(name='소화기개수')
 
-# =============================
+
 # 7. 결과 저장
-# =============================
+
 result.to_csv("서울시_자치구별_소화기_개수2.csv", index=False, encoding='utf-8-sig')
 
 print(result)
