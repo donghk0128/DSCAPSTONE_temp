@@ -64,6 +64,6 @@ result = joined.groupby('SIG_KOR_NM').size().reset_index(name='소화기개수')
 
 # 7. 결과 저장
 
-result.to_csv("서울시_자치구별_소화기_개수2.csv", index=False, encoding='utf-8-sig')
+result.to_csv("output/자치구별 소화기 개수.csv", index=False, encoding='utf-8-sig')
 
 print(result)
